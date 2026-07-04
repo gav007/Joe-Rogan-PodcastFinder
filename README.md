@@ -1,5 +1,9 @@
 # Joe Rogan Podcast Finder
 
+## Demo Video
+
+[Watch the Podcast Finder demo](screenshots/demo.mp4)
+
 A local web app for searching Joe Rogan Experience episodes by year, guest,
 topic, or description, backed by a dataset pulled from the Spotify API.
 

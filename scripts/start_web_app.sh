@@ -1,30 +1,23 @@
 #!/bin/bash
-# Starts the local web server for Podcast Finder.
-#
-# Usage:
-#   ./scripts/start_web_app.sh
-#
-# Stop it:
-#   Press Ctrl+C in the terminal it's running in, or from another terminal:
-#   fuser -k 8123/tcp
-#
-# Restart it:
-#   Stop it as above, then run this script again.
 
 set -e
 
-cd "$(dirname "$0")/.." || exit 1
+cd /home/gav/podcasts-finder || exit 1
 
 PORT=8123
+URL="http://localhost:$PORT/web/index.html"
 
-if ss -ltn "( sport = :$PORT )" | grep -q ":$PORT"; then
-    echo "Port $PORT is already in use - the web app may already be running."
-    echo "Open http://localhost:$PORT/web/index.html in your browser."
-    echo "To stop the existing server: fuser -k ${PORT}/tcp"
-    exit 0
+mkdir -p logs
+
+if ss -ltn | grep -q ":$PORT "; then
+    echo "Podcast Finder server is already running on port $PORT."
+else
+    echo "Starting Podcast Finder web server on port $PORT..."
+    nohup python3 -m http.server "$PORT" --bind 0.0.0.0 > logs/web_server.log 2>&1 &
+    sleep 2
 fi
 
-echo "Starting Podcast Finder web server on port $PORT..."
-echo "Open http://localhost:$PORT/web/index.html in your browser."
-echo "Press Ctrl+C to stop."
-exec python3 -m http.server "$PORT"
+echo "Opening Podcast Finder in browser..."
+powershell.exe -NoProfile -Command "Start-Process '$URL'" >/dev/null 2>&1
+
+echo "Done. Browser should be open at $URL"
