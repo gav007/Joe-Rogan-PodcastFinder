@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Podcast Finder</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Podcast Finder</h1>
+        <p>Search Joe Rogan episodes by year, guest, topic, or description.</p>
+    </header>
+
+    <section class="controls">
+        <input id="searchInput" type="text" placeholder="Search: alien, Elon, comedian...">
+
+        <select id="yearSelect">
+            <option value="">All years</option>
+        </select>
+
+        <select id="limitSelect">
+            <option value="25">Show 25</option>
+            <option value="50">Show 50</option>
+            <option value="100">Show 100</option>
+            <option value="all">Show all</option>
+        </select>
+
+        <button id="searchButton">Search</button>
+        <button id="clearButton">Clear</button>
+    </section>
+
+    <section id="summary"></section>
+
+    <main id="episodes"></main>
+
+    <script src="app.js"></script>
+</body>
+</html>

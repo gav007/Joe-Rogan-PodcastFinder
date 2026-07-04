@@ -1,0 +1,7 @@
+venv/
+archive_old_start/
+logs/*.log
+__pycache__/
+*.pyc
+.env
+.spotify_env
