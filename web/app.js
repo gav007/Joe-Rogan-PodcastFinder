@@ -8,6 +8,30 @@ const clearButton = document.getElementById("clearButton");
 const episodesDiv = document.getElementById("episodes");
 const summaryDiv = document.getElementById("summary");
 
+function removeUrls(text) {
+    return text.replace(/https?:\/\/\S+|www\.\S+/g, "");
+}
+
+function escapeRegex(text) {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function normaliseText(text) {
+    return removeUrls(text)
+        .toLowerCase()
+        .replace(/[“”]/g, '"')
+        .replace(/[’]/g, "'")
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+function exactPhraseMatch(text, searchTerm) {
+    const safeTerm = escapeRegex(searchTerm);
+    const pattern = new RegExp(`(^|[^a-z0-9])${safeTerm}([^a-z0-9]|$)`, "i");
+    return pattern.test(text);
+}
+
+
 fetch("../data/episodes.json")
     .then(response => response.json())
     .then(data => {
@@ -38,14 +62,14 @@ function searchEpisodes() {
     const limit = limitSelect.value;
 
     let results = allEpisodes.filter(episode => {
-        const title = episode.title.toLowerCase();
-        const description = episode.description.toLowerCase();
+        const title = normaliseText(episode.title);
+        const description = normaliseText(episode.description);
+        const combinedText = `${title} ${description}`;
         const year = episode.release_date.slice(0, 4);
 
         const matchesSearch =
-            searchTerm === "" ||
-            title.includes(searchTerm) ||
-            description.includes(searchTerm);
+        searchTerm === "" ||
+        exactPhraseMatch(combinedText, searchTerm);
 
         const matchesYear =
             selectedYear === "" ||
