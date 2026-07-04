@@ -97,7 +97,7 @@ function displayEpisodes(episodes) {
         card.className = "card";
 
         card.innerHTML = `
-            <img src="${episode.image_url}" alt="Episode artwork">
+            <img src="${episode.image_url || "favicon.svg"}" alt="Episode artwork">
             <div class="card-content">
                 <h2>${episode.title}</h2>
                 <div class="meta">
